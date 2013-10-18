@@ -90,14 +90,6 @@ function v1(; clock_seq = 0)
     uuid
 end
 
-#function v1(uuid::Uuid ; clock_seq = 0)
-    #build_timestamp(uuid)
-    #build_version(uuid,1)
-    #build_clock_sequence(uuid,clock_seq)
-    #build_node(uuid)
-    #uuid
-#end
-
 # version 4 is a random uuid
 function v4()
     uuid = Uuid(rand(Uint32),
@@ -120,30 +112,17 @@ function asString(uuid , joiner::String="")
                     mapreduce(s->@sprintf("%02x",s),*,uuid.node)],joiner)
 end
 
-function tohex(uuid)
+function toHex(uuid)
     asString(uuid)
-    #@sprintf("%s", join([@sprintf("%08x",uuid.ts_low),
-                         #@sprintf("%04x",uuid.ts_mid),
-                         #@sprintf("%04x",uuid.ts_hi_and_ver),
-                         #mapreduce(s->@sprintf("%02x",s),*,
-                                   #[uuid.clock_seq_hi_and_rsvd,
-                                    #uuid.clock_seq_low]),
-                         #mapreduce(s->@sprintf("%02x",s),*,uuid.node)],""))
 end
 
-function tostr(uuid)
+function toStr(uuid)
     asString(uuid,"-")
-    #@sprintf("%s-%s-%s-%s-%s",
-             #@sprintf("%08x",uuid.ts_low),
-             #@sprintf("%04x",uuid.ts_mid),
-             #@sprintf("%04x",uuid.ts_hi_and_ver),
-             #mapreduce(s->@sprintf("%02x",s),*,
-                       #[uuid.clock_seq_hi_and_rsvd,
-                        #uuid.clock_seq_low]),
-             #mapreduce(s->@sprintf("%02x",s),*,uuid.node))
 end
 
-function int()
+function toInt(uuid)
+    # TODO makes this less hacky right now
+    convert(Int128,parseint(Uint128,tohex(uuid),16))
 end
 
 function bytes()
