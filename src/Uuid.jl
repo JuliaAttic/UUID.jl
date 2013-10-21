@@ -24,6 +24,9 @@ type ClockSeqUuid
     clock_seq_low::Uint8
 end
 
+# regex pattern to parse uuid
+const regex_uuid = r"^(urn\:uuid\:)?\{?([a-z0-9]{8})-([a-z0-9]{4})-([1-5][a-z0-9]{3})-([a-z0-9]{4})-([a-z0-9]{12})\}?$"
+
 immutable UUID
     ts::TimestampUuid
     cseq::ClockSeqUuid
@@ -35,6 +38,23 @@ immutable UUID
                                  ClockSeqUuid(cseq.clock_seq_hi_and_rsvd,
                                               cseq.clock_seq_low),
                                  node)
+    function UUID(uuid::String)
+        uuid_match = match(regex_uuid,uuid)
+        if uuid_match == nothing
+            error("Not a valid UUID string")
+        end
+        new(TimestampUuid(uint32(parseint(uuid_match.captures[2],16)),
+                          uint16(parseint(uuid_match.captures[3],16)),
+                          uint16(parseint(uuid_match.captures[4],16))),
+            ClockSeqUuid(uint8(parseint(uuid_match.captures[5][1:2],16)),
+                         uint8(parseint(uuid_match.captures[5][3:end],16))),
+            [uint8(parseint(uuid_match.captures[6][1:2],16)),
+             uint8(parseint(uuid_match.captures[6][3:4],16)),
+             uint8(parseint(uuid_match.captures[6][5:6],16)),
+             uint8(parseint(uuid_match.captures[6][7:8],16)),
+             uint8(parseint(uuid_match.captures[6][9:10],16)),
+             uint8(parseint(uuid_match.captures[6][11:12],16))])
+    end
 end
 
 function build_timestamp()
@@ -107,8 +127,7 @@ function v4()
 end
 
 function asString(uuid , joiner::String="")
-    join([@sprintf("%08x",uuid.ts.ts_low),
-                    @sprintf("%04x",uuid.ts.ts_mid),
+    join([@sprintf("%08x",uuid.ts.ts_low), @sprintf("%04x",uuid.ts.ts_mid),
                     @sprintf("%04x",uuid.ts.ts_hi_and_ver),
                     mapreduce(s->@sprintf("%02x",s),*,
                               [uuid.cseq.clock_seq_hi_and_rsvd,
@@ -135,6 +154,6 @@ end
 
 # override default show for UUID type
 import Base.show
-show(io::IO, uuid::UUID) = print(io,string("UUID(\'",toStr(uuid),"\'"))
+show(io::IO, uuid::UUID) = print(io,string("UUID(\'",toStr(uuid),"\')"))
 
 end
