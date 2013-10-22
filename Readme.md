@@ -38,3 +38,6 @@ Currently, the node id is implemented using section 4.5 of the RFC.
 
 ### Todo
 - version 3 (using MD5 hash) and version 5 (using SHA-1 hash).
+
+##### Questions
+Feel free to submit any pull requests or issues. Originally authored by Bassem Youssef, byoussef@forio.com.
