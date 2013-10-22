@@ -13,7 +13,7 @@ Currently, the library generates version 1 and version 4 UUIDs.
 	julia> using Uuid
 	
 	julia> u1 = Uuid.v1() # generate a version 1 uuid
-	UUID('c9308c72-3936-11e3-b3d1-305bfaa14fd3'
+	UUID('c9308c72-3936-11e3-b3d1-305bfaa14fd3')
 	julia> Uuid.get_version(u1) # get uuid version number
 	1
 	julia> Uuid.toStr(u1) # the canonical representation
@@ -23,7 +23,7 @@ Currently, the library generates version 1 and version 4 UUIDs.
 	
 	
 	julia> u4 = Uuid.v4() # generate a version 4 uuid
-	UUID('64885014-0f58-4a40-82df-b241dd1fd000'
+	UUID('64885014-0f58-4a40-82df-b241dd1fd000')
 	julia> Uuid.get_version(u4)
 	4
 	julia> Uuid.toInt(u4) # display as an integer
