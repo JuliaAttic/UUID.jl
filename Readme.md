@@ -1,4 +1,4 @@
-# Uuid.jl
+# UUID.jl
 
 
 ## Brief overview
