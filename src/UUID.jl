@@ -1,4 +1,4 @@
-module Uuid
+module UUID
 
 # uuid layout and byteorder from RFC 4122
 # 0                   1                   2                   3
@@ -27,18 +27,18 @@ end
 # regex pattern to parse uuid
 const regex_uuid = r"^(urn\:uuid\:)?\{?([a-z0-9]{8})-([a-z0-9]{4})-([1-5][a-z0-9]{3})-([a-z0-9]{4})-([a-z0-9]{12})\}?$"
 
-immutable UUID
+immutable Uuid
     ts::TimestampUuid
     cseq::ClockSeqUuid
     node::Vector{Uint8}
 
-    UUID(ts, cseq, node) =
+    Uuid(ts, cseq, node) =
          length(node) != 6 ? error("Node vector size should be 6") :
                              new(TimestampUuid(ts.ts_low,ts.ts_mid,ts.ts_hi_and_ver),
                                  ClockSeqUuid(cseq.clock_seq_hi_and_rsvd,
                                               cseq.clock_seq_low),
                                  node)
-    function UUID(uuid::String)
+    function Uuid(uuid::String)
         uuid_match = match(regex_uuid,uuid)
         if uuid_match == nothing
             error("Not a valid UUID string")
@@ -112,7 +112,7 @@ function v1(; clock_seq = 0)
     ts = build_version(ts,1)
     clock_seq = build_clock_sequence(clock_seq)
     node = build_node()
-    UUID(ts, clock_seq, node)
+    Uuid(ts, clock_seq, node)
 end
 
 # version 4 is a random uuid
@@ -121,7 +121,7 @@ function v4()
                        rand(Uint16),
                        rand(Uint16) & 0x0FFF) # clear version
     build_version(ts,4)
-    UUID(ts,
+    Uuid(ts,
          ClockSeqUuid(rand(Uint8), rand(Uint8)),
          get_rand_narray(6))
 end
@@ -154,6 +154,6 @@ end
 
 # override default show for UUID type
 import Base.show
-show(io::IO, uuid::UUID) = print(io,string("UUID(\'",toStr(uuid),"\')"))
+show(io::IO, uuid::Uuid) = print(io,string("UUID(\'",toStr(uuid),"\')"))
 
 end
