@@ -3,8 +3,8 @@ using UUID
 
 # v1 -------
 
-u1 = Uuid.v1()
-@assert u1::Uuid
+u1 = UUID.v1()
+u1::UUID.Uuid
 
 @assert UUID.get_version(u1) == 1
 @assert string(u1) != nothing
@@ -15,8 +15,8 @@ u1 = Uuid.v1()
 
 # v4 -------
 
-u4 = Uuid.v4()
-@assert u4::Uuid
+u4 = UUID.v4()
+u4::UUID.Uuid
 
 @assert UUID.get_version(u4) == 4
 @assert string(u4) != nothing
