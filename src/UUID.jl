@@ -1,5 +1,7 @@
 module UUID
 
+import Base.show, Base.print, Base.string, Base.int, Base.hex
+
 # uuid layout and byteorder from RFC 4122
 # 0                   1                   2                   3
 # 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -126,7 +128,7 @@ function v4()
          get_rand_narray(6))
 end
 
-function asString(uuid , joiner::String="")
+function asString(uuid::Uuid, joiner::String="")
     join([@sprintf("%08x",uuid.ts.ts_low), @sprintf("%04x",uuid.ts.ts_mid),
                     @sprintf("%04x",uuid.ts.ts_hi_and_ver),
                     mapreduce(s->@sprintf("%02x",s),*,
@@ -135,25 +137,26 @@ function asString(uuid , joiner::String="")
                     mapreduce(s->@sprintf("%02x",s),*,uuid.node)],joiner)
 end
 
-function toHex(uuid)
+function hex(uuid::Uuid)
     asString(uuid)
 end
 
-function toStr(uuid)
+function string(uuid::Uuid)
     asString(uuid,"-")
 end
 
-function toInt(uuid)
+function int(uuid::Uuid)
     # TODO makes this less hacky right now
-    convert(Int128,parseint(Uint128,toHex(uuid),16))
+    convert(Int128,parseint(Uint128,hex(uuid),16))
 end
 
-function get_version(uuid)
+function get_version(uuid::Uuid)
     uuid.ts.ts_hi_and_ver & 0xF000 >> 12 |> int
 end
 
-# override default show for UUID type
-import Base.show
-show(io::IO, uuid::Uuid) = print(io,string("UUID(\'",toStr(uuid),"\')"))
+# override default show and print for UUID type
+show(io::IO, uuid::Uuid) = print(io,string("Uuid(\'",uuid,"\')"))
+
+print(io::IO, uuid::Uuid) = print(io, string(uuid))
 
 end
