@@ -9,5 +9,6 @@ before_install:
     - sudo apt-get update -qq -y
     - sudo apt-get install libpcre3-dev julia -y
 script:
+    - rm .git/shallow
     - julia -e 'versioninfo(); Pkg.init(); Pkg.clone(pwd())'
     - julia ./test/runtests.jl
