@@ -10,4 +10,4 @@ before_install:
     - sudo apt-get install libpcre3-dev julia -y
 script:
     - julia -e 'versioninfo(); Pkg.init(); Pkg.clone(pwd())'
-    - julia ./test/run_tests.jl
+    - julia ./test/runtests.jl
