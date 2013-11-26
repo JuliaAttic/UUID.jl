@@ -1,5 +1,5 @@
 # UUID.jl
-
+[![Build Status](https://travis-ci.org/forio/UUID.jl.png?branch=v0.0.2)](https://travis-ci.org/forio/UUID.jl)
 
 ## Brief overview
 
