@@ -1,6 +1,6 @@
 module UUID
 
-import Base.show, Base.print, Base.string, Base.int, Base.hex
+import Base.show, Base.print, Base.string, Base.int, Base.uint, Base.hex
 
 # uuid layout and byteorder from RFC 4122
 # 0                   1                   2                   3
@@ -106,7 +106,7 @@ const number_100ns_intervals = 0x01b21dd213814000
 
 function get_timestamp()
     # 1e9 /100 for 100ns intervals
-    iround(time() * 1e7) + number_100ns_intervals
+    round(Integer, time() * 1e7) + number_100ns_intervals
 end
 
 function v1(; clock_seq = 0)
@@ -146,8 +146,11 @@ function string(uuid::Uuid)
 end
 
 function int(uuid::Uuid)
-    # TODO makes this less hacky right now
-    convert(Int128,parseint(Uint128,hex(uuid),16))
+    parseint(Int128, hex(uuid), 16)
+end
+
+function uint(uuid::Uuid)
+    parseint(Uint128, hex(uuid), 16)
 end
 
 function get_version(uuid::Uuid)
