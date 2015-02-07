@@ -1,6 +1,6 @@
 module UUID
 
-import Base.show, Base.print, Base.string, Base.int, Base.hex
+import Base.show, Base.print, Base.string, Base.int, Base.uint, Base.hex
 
 # uuid layout and byteorder from RFC 4122
 # 0                   1                   2                   3
@@ -146,8 +146,11 @@ function string(uuid::Uuid)
 end
 
 function int(uuid::Uuid)
-    # TODO makes this less hacky
-    reinterpret(Int128, parseint(Uint128, hex(uuid), 16))
+    parseint(Int128, hex(uuid), 16)
+end
+
+function uint(uuid::Uuid)
+    parseint(Uint128, hex(uuid), 16)
 end
 
 function get_version(uuid::Uuid)

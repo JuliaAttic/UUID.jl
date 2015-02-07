@@ -21,6 +21,7 @@ u4::UUID.Uuid
 @assert UUID.get_version(u4) == 4
 @assert string(u4) != nothing
 @assert int(u4) != nothing
+@assert uint(u4) != nothing
 @assert hex(u4) != nothing
 
 @assert UUID.v4() != UUID.v4()
