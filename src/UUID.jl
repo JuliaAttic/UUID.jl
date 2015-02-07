@@ -146,8 +146,8 @@ function string(uuid::Uuid)
 end
 
 function int(uuid::Uuid)
-    # TODO makes this less hacky right now
-    convert(Int128,parseint(Uint128,hex(uuid),16))
+    # TODO makes this less hacky
+    reinterpret(Int128, parseint(Uint128, hex(uuid), 16))
 end
 
 function get_version(uuid::Uuid)
