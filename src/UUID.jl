@@ -106,7 +106,7 @@ const number_100ns_intervals = 0x01b21dd213814000
 
 function get_timestamp()
     # 1e9 /100 for 100ns intervals
-    iround(time() * 1e7) + number_100ns_intervals
+    round(Integer, time() * 1e7) + number_100ns_intervals
 end
 
 function v1(; clock_seq = 0)
