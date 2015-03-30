@@ -144,17 +144,17 @@ hex(uuid::Uuid) = asString(uuid)
 string(uuid::Uuid) = asString(uuid,"-")
 
 function uint(uuid::Uuid)
-    (UInt128(uuid.ts.ts_low)                  << 96) |
-    (UInt128(uuid.ts.ts_mid)                  << 80) |
-    (UInt128(uuid.ts.ts_hi_and_ver)           << 64) |
-    (UInt128(uuid.cseq.clock_seq_hi_and_rsvd) << 56) |
-    (UInt128(uuid.cseq.clock_seq_low)         << 48) |
-    (UInt128(uuid.node[1])                    << 40) |
-    (UInt128(uuid.node[2])                    << 32) |
-    (UInt128(uuid.node[3])                    << 24) |
-    (UInt128(uuid.node[4])                    << 16) |
-    (UInt128(uuid.node[5])                    <<  8) |
-    (UInt128(uuid.node[6])                         )
+    (convert(Uint128,uuid.ts.ts_low)                  << 96) |
+    (convert(Uint128,uuid.ts.ts_mid)                  << 80) |
+    (convert(Uint128,uuid.ts.ts_hi_and_ver)           << 64) |
+    (convert(Uint128,uuid.cseq.clock_seq_hi_and_rsvd) << 56) |
+    (convert(Uint128,uuid.cseq.clock_seq_low)         << 48) |
+    (convert(Uint128,uuid.node[1])                    << 40) |
+    (convert(Uint128,uuid.node[2])                    << 32) |
+    (convert(Uint128,uuid.node[3])                    << 24) |
+    (convert(Uint128,uuid.node[4])                    << 16) |
+    (convert(Uint128,uuid.node[5])                    <<  8) |
+    (convert(Uint128,uuid.node[6])                         )
 end
 
 int(uuid::Uuid) = reinterpret(Int128, uint(uuid))
