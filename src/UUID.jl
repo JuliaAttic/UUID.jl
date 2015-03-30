@@ -129,29 +129,35 @@ function v4()
 end
 
 function asString(uuid::Uuid, joiner::String="")
-    join([@sprintf("%08x",uuid.ts.ts_low), @sprintf("%04x",uuid.ts.ts_mid),
-                    @sprintf("%04x",uuid.ts.ts_hi_and_ver),
-                    mapreduce(s->@sprintf("%02x",s),*,
-                              [uuid.cseq.clock_seq_hi_and_rsvd,
-                               uuid.cseq.clock_seq_low]),
-                    mapreduce(s->@sprintf("%02x",s),*,uuid.node)],joiner)
+    string(hex(uuid.ts.ts_low, 8), joiner,
+           hex(uuid.ts.ts_mid, 4), joiner,
+           hex(uuid.ts.ts_hi_and_ver, 4), joiner,
+           hex(uuid.cseq.clock_seq_hi_and_rsvd, 2),
+           hex(uuid.cseq.clock_seq_low, 2),
+           joiner,
+           hex(uuid.node[1],2), hex(uuid.node[2],2),
+           hex(uuid.node[3],2), hex(uuid.node[4],2),
+           hex(uuid.node[5],2), hex(uuid.node[6],2))
 end
 
-function hex(uuid::Uuid)
-    asString(uuid)
-end
-
-function string(uuid::Uuid)
-    asString(uuid,"-")
-end
-
-function int(uuid::Uuid)
-    parseint(Int128, hex(uuid), 16)
-end
+hex(uuid::Uuid) = asString(uuid)
+string(uuid::Uuid) = asString(uuid,"-")
 
 function uint(uuid::Uuid)
-    parseint(Uint128, hex(uuid), 16)
+    (UInt128(uuid.ts.ts_low)                  << 96) |
+    (UInt128(uuid.ts.ts_mid)                  << 80) |
+    (UInt128(uuid.ts.ts_hi_and_ver)           << 64) |
+    (UInt128(uuid.cseq.clock_seq_hi_and_rsvd) << 56) |
+    (UInt128(uuid.cseq.clock_seq_low)         << 48) |
+    (UInt128(uuid.node[1])                    << 40) |
+    (UInt128(uuid.node[2])                    << 32) |
+    (UInt128(uuid.node[3])                    << 24) |
+    (UInt128(uuid.node[4])                    << 16) |
+    (UInt128(uuid.node[5])                    <<  8) |
+    (UInt128(uuid.node[6])                         )
 end
+
+int(uuid::Uuid) = reinterpret(Int128, uint(uuid))
 
 function get_version(uuid::Uuid)
     uuid.ts.ts_hi_and_ver & 0xF000 >> 12 |> int
