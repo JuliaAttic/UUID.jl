@@ -1,5 +1,7 @@
 module UUID
 
+using Compat
+
 import Base.show, Base.print, Base.string, Base.int, Base.uint, Base.hex
 
 # uuid layout and byteorder from RFC 4122
