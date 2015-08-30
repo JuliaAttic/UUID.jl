@@ -1,5 +1,7 @@
 module UUID
 
+VERSION >= v"0.4-" && warn("UUID.jl is deprecated, please use Base.Random.uuid1(), Base.Random.uuid4(), and Base.Random.UUID instead.")
+
 using Compat
 
 import Base.show, Base.print, Base.string, Base.int, Base.uint, Base.hex

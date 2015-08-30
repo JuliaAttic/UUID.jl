@@ -1,6 +1,9 @@
 # UUID.jl
 [![Build Status](https://travis-ci.org/forio/UUID.jl.png?branch=master)](https://travis-ci.org/forio/UUID.jl)
 
+#### UUID functionality has been merged into Julia 0.4 and this package is deprecated.
+##### Please use `Base.Random.uuid1()`, `Base.Random.uuid4()`, and `Base.Random.UUID` instead.
+
 ## Brief overview
 
 A universally unique identifier (**UUID**) is an identifier standard, as specified by [RFC 4122](http://www.ietf.org/rfc/rfc4122.txt). UUIDs are 128 bits long, and require no central registration process.
@@ -41,9 +44,6 @@ Uint128
 
 ### Notes
 Currently, the node id is implemented using section 4.5 of the RFC.
-
-### Todo
-- version 3 (using MD5 hash) and version 5 (using SHA-1 hash).
 
 -------
 
