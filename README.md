@@ -1,8 +1,8 @@
 # UUID.jl
 [![Build Status](https://travis-ci.org/forio/UUID.jl.png?branch=master)](https://travis-ci.org/forio/UUID.jl)
 
-#### UUID functionality has been merged into Julia 0.4 and this package is deprecated.
-##### Please use `Base.Random.uuid1()`, `Base.Random.uuid4()`, and `Base.Random.UUID` instead.
+#### UUID functionality has been merged into Julia 0.4
+##### Moving forward, please use `Base.Random.uuid1()`, `Base.Random.uuid4()`, and `Base.Random.UUID` instead.
 
 ## Brief overview
 
