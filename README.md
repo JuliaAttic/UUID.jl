@@ -1,5 +1,5 @@
 # UUID.jl
-[![Build Status](https://travis-ci.org/forio/UUID.jl.png?branch=master)](https://travis-ci.org/forio/UUID.jl)
+[![Build Status](https://travis-ci.org/JuliaArchive/UUID.jl.png?branch=master)](https://travis-ci.org/JuliaArchive/UUID.jl)
 
 #### UUID functionality has been merged into Julia 0.4
 ##### Moving forward, please use `Base.Random.uuid1()`, `Base.Random.uuid4()`, and `Base.Random.UUID` instead.
